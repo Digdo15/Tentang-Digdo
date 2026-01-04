@@ -63,9 +63,7 @@
         .hero {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
             padding: 120px 10% 60px; text-align: center; flex-direction: column; position: relative;
-            /* Background Gambar dengan Overlay Putih agar teks terbaca */
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), var(--bg-body)),
-                        url('https://media.licdn.com/dms/image/v2/D5616AQHEoeRiRPTtlw/profile-displaybackgroundimage-shrink_350_1400/B56ZrVrZddKwAY-/0/1764521519925?e=1768435200&v=beta&t=5Tgo2LgtkvcTnwltS96s2K3aA9WgmzqNV4kppJPe3tE');
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), var(--bg-body));
             background-size: cover; background-position: center; background-attachment: fixed;
         }
 
@@ -106,7 +104,7 @@
         }
         .btn-secondary:hover { background: var(--primary-blue); color: white; }
 
-        /* SERVICES / VALUE PROPOSITION */
+        /* SERVICES */
         section { padding: 6rem 10%; }
         
         .section-header { margin-bottom: 4rem; text-align: center; }
@@ -136,7 +134,6 @@
             display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary-blue);
             margin-bottom: 1.5rem;
         }
-        /* Saat hover, ikon jadi orange */
         .service-card:hover .service-icon { background: rgba(255, 107, 0, 0.1); color: var(--primary-orange); }
         
         .service-card h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-main); }
@@ -162,10 +159,8 @@
         }
         .project-card:hover .project-img { transform: scale(1.05); filter: brightness(0.7); }
 
-        /* Overlay */
         .project-overlay {
             position: absolute; bottom: 0; left: 0; width: 100%;
-            /* Gradient Biru Gelap Transparan */
             background: linear-gradient(to top, rgba(0, 86, 179, 0.9), rgba(0, 86, 179, 0.4));
             padding: 2rem; 
             display: flex; flex-direction: column; justify-content: flex-end;
@@ -175,7 +170,6 @@
         }
         .project-card:hover .project-overlay { opacity: 1; background: linear-gradient(to top, rgba(0, 86, 179, 1), rgba(0, 86, 179, 0.6)); }
         
-        /* Teks dalam kartu project tetap putih agar terbaca di atas gambar/overlay gelap */
         .project-tag {
             display: inline-block; padding: 4px 12px; background: var(--primary-orange); color: white;
             border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; text-transform: uppercase; align-self: flex-start;
@@ -216,11 +210,42 @@
             color: white;
         }
 
+        /* --- PENAMBAHAN MEDIA QUERY (MOBILE OPTIMIZATION Tanpa Merubah Kode Diatas) --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .project-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+            body { padding-bottom: 70px; } /* Ruang untuk mobile nav di bawah */
+            .nav-links, .nav-btn { display: none; } /* Sembunyikan navigasi atas di HP agar tidak tertumpuk */
+            
+            .hero { padding: 100px 5% 40px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; margin-bottom: 2rem; }
+            .hero-btns { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+            section { padding: 4rem 5%; }
+            .section-header h2 { font-size: 1.8rem; }
+            .services-grid, .project-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .project-card { height: 300px; }
+            
+            .timeline-item { padding-left: 45px; }
+            .timeline::after { left: 15px; }
+            .timeline-dot { left: 6px; }
+
+            /* Penambahan Navigasi Ikon Bawah Khusus Mobile */
+            .mobile-nav {
+                display: flex !important; position: fixed; bottom: 0; left: 0; width: 100%;
+                background: white; border-top: 1px solid var(--border-light);
+                z-index: 2000; padding: 10px 0; justify-content: space-around;
+                box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            }
+            .mobile-nav-item {
+                text-align: center; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-weight: 600;
+            }
+            .mobile-nav-item i { display: block; font-size: 1.2rem; margin-bottom: 3px; color: var(--primary-blue); }
+            .mobile-nav-item:active { color: var(--primary-orange); }
         }
+
+        /* Hidden by default on Desktop */
+        .mobile-nav { display: none; }
     </style>
 </head>
 <body>
@@ -236,19 +261,26 @@
         <a href="#contact" class="nav-btn">Hire Me</a>
     </nav>
 
+    <div class="mobile-nav">
+        <a href="#" class="mobile-nav-item"><i class="fas fa-home"></i>Home</a>
+        <a href="#services" class="mobile-nav-item"><i class="fas fa-tools"></i>Layanan</a>
+        <a href="#portfolio" class="mobile-nav-item"><i class="fas fa-folder"></i>Proyek</a>
+        <a href="#experience" class="mobile-nav-item"><i class="fas fa-history"></i>Karir</a>
+    </div>
+
     <section class="hero">
         <div class="profile-badge">
             <i class="fas fa-check-circle"></i> Available for New Projects
         </div>
         
-      <img src="https://lh3.googleusercontent.com/d/1vSW25TB9W5znKsbFG3outUZj7bXDjUzI" alt="Digdo Bayu" class="profile-img">
+        <img src="https://lh3.googleusercontent.com/d/1vSW25TB9W5znKsbFG3outUZj7bXDjUzI" alt="Digdo Bayu" class="profile-img">
         
         <h1>Mengubah Data Spasial <br> Menjadi <span class="gradient-text">Solusi Digital</span></h1>
         
         <p>Saya menggabungkan presisi <strong>Teknik Geodesi</strong> dengan kecanggihan <strong>Web Development</strong>. Membantu perusahaan Anda memvisualisasikan data lapangan menjadi aset digital yang berharga.</p>
         
         <div class="hero-btns">
-            <a href="#contact" class="btn-primary">
+            <a href="https://wa.me/6285841889968" class="btn-primary">
                 <i class="fab fa-whatsapp"></i> Hubungi Saya
             </a>
             <a href="https://www.linkedin.com/in/digdobayurikysubagja/" class="btn-secondary">
@@ -267,7 +299,7 @@
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-drone"></i></div>
                 <h3>Advanced Aerial Mapping</h3>
-                <p>Akuisisi data fotogrametri presisi tinggi menggunakan Drone VTOL (Wingtra) dan Multirotor untuk area luas.</p>
+                <p>Akuisisi data fotogrametri presisi tinggi menggunakan Drone.</p>
                 <ul class="service-list">
                     <li><i class="fas fa-check"></i> Orthophoto & Kontur Presisi</li>
                     <li><i class="fas fa-check"></i> Perhitungan Volume Cut & Fill</li>
@@ -286,7 +318,7 @@
             </div>
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-code"></i></div>
-                <h3>Custom WebGIS Development</h3>
+                <h3>Custom Web Development</h3>
                 <p>Membangun platform berbasis web untuk menampilkan data peta dan 3D Anda secara interaktif kepada klien.</p>
                 <ul class="service-list">
                     <li><i class="fas fa-check"></i> Interactive 3D Web Viewer</li>
@@ -306,15 +338,15 @@
         <div class="project-grid">
             
             <div class="project-card">
-               <img src="https://lh3.googleusercontent.com/d/1tROMPDyJPRk8upvx2XBnKL2JP28SpeBF" class="project-img" alt="Web Viewer">
+                <img src="https://lh3.googleusercontent.com/d/1tROMPDyJPRk8upvx2XBnKL2JP28SpeBF" class="project-img" alt="Web Viewer">
                 <div class="project-overlay">
-                    <span class="project-tag">WebGIS Development</span>
+                    <span class="project-tag">Web Development</span>
                     <h3>Interactive Point Cloud Viewer</h3>
                     <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
                         Platform web untuk menampilkan data 3D LIDAR/TLS berdensitas tinggi secara langsung di browser. Tanpa perlu instalasi software berat.
                     </p>
                     <a href="https://digdo15.github.io/website-digdo-bayu-riky-subagja/" target="_blank" class="btn-live">
-                        <i class="fas fa-cube"></i> Lihat Demo 3D
+                        <i class="fas fa-cube"></i> Lihat point cloud 3D (Las)
                     </a>
                 </div>
             </div>
@@ -334,7 +366,7 @@
             </div>
 
             <div class="project-card">
-                <img src="https://lh3.googleusercontent.com/d/198havi2QlnqMdLe4dllZb8TUTqROZIVE" class="project-img" alt="Wingtra Drone"> "Drone">
+                <img src="https://lh3.googleusercontent.com/d/198havi2QlnqMdLe4dllZb8TUTqROZIVE" class="project-img" alt="Wingtra Drone">
                 <div class="project-overlay">
                     <span class="project-tag">Mining Survey</span>
                     <h3>Wingtra VTOL Operation</h3>
@@ -343,7 +375,7 @@
             </div>
 
             <div class="project-card">
-               <img src="https://lh3.googleusercontent.com/d/1U5CSyTqLK96LGXA6gsnUyGX5kZF5rgwp" class="project-img" alt="Sonar">
+                <img src="https://lh3.googleusercontent.com/d/1U5CSyTqLK96LGXA6gsnUyGX5kZF5rgwp" class="project-img" alt="Sonar">
                 <div class="project-overlay">
                     <span class="project-tag">Hydrography</span>
                     <h3>Side Scan Sonar Inspection</h3>
@@ -396,9 +428,6 @@
 
     <section id="contact" class="cta-section">
         <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem; color: white;">Siap Meningkatkan Kualitas Data Spasial Anda?</h2>
-        <p style="font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
-            Saya tersedia untuk proyek lepas (freelance), kontrak, maupun full-time. Mari diskusikan bagaimana keahlian saya dapat membantu bisnis Anda berkembang.
-        </p>
         <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
             <a href="https://wa.me/6285841889968" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 3rem; background:white; color:var(--primary-blue);">
                 <i class="fab fa-whatsapp"></i> Chat WhatsApp
@@ -408,10 +437,12 @@
             </a>
         </div>
         <div style="margin-top: 4rem; color: rgba(255,255,255,0.5); font-size: 0.9rem;">
-            &copy; 2025 Digdo Bayu Riky Subagja. Professional Portfolio.
+            &copy; 2026 Digdo Bayu Riky Subagja. Professional Portfolio.
         </div>
     </section>
 
 </body>
-
 </html>
+
+
+
