@@ -210,11 +210,42 @@
             color: white;
         }
 
+        /* --- PENAMBAHAN MEDIA QUERY (MOBILE OPTIMIZATION Tanpa Merubah Kode Diatas) --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .project-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+            body { padding-bottom: 70px; } /* Ruang untuk mobile nav di bawah */
+            .nav-links, .nav-btn { display: none; } /* Sembunyikan navigasi atas di HP agar tidak tertumpuk */
+            
+            .hero { padding: 100px 5% 40px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; margin-bottom: 2rem; }
+            .hero-btns { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+            section { padding: 4rem 5%; }
+            .section-header h2 { font-size: 1.8rem; }
+            .services-grid, .project-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .project-card { height: 300px; }
+            
+            .timeline-item { padding-left: 45px; }
+            .timeline::after { left: 15px; }
+            .timeline-dot { left: 6px; }
+
+            /* Penambahan Navigasi Ikon Bawah Khusus Mobile */
+            .mobile-nav {
+                display: flex !important; position: fixed; bottom: 0; left: 0; width: 100%;
+                background: white; border-top: 1px solid var(--border-light);
+                z-index: 2000; padding: 10px 0; justify-content: space-around;
+                box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+            }
+            .mobile-nav-item {
+                text-align: center; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-weight: 600;
+            }
+            .mobile-nav-item i { display: block; font-size: 1.2rem; margin-bottom: 3px; color: var(--primary-blue); }
+            .mobile-nav-item:active { color: var(--primary-orange); }
         }
+
+        /* Hidden by default on Desktop */
+        .mobile-nav { display: none; }
     </style>
 </head>
 <body>
@@ -229,6 +260,13 @@
         </div>
         <a href="#contact" class="nav-btn">Hire Me</a>
     </nav>
+
+    <div class="mobile-nav">
+        <a href="#" class="mobile-nav-item"><i class="fas fa-home"></i>Home</a>
+        <a href="#services" class="mobile-nav-item"><i class="fas fa-tools"></i>Layanan</a>
+        <a href="#portfolio" class="mobile-nav-item"><i class="fas fa-folder"></i>Proyek</a>
+        <a href="#experience" class="mobile-nav-item"><i class="fas fa-history"></i>Karir</a>
+    </div>
 
     <section class="hero">
         <div class="profile-badge">
@@ -399,7 +437,7 @@
             </a>
         </div>
         <div style="margin-top: 4rem; color: rgba(255,255,255,0.5); font-size: 0.9rem;">
-            © 2026 Digdo Bayu Riky Subagja. Professional Portfolio.
+            &copy; 2026 Digdo Bayu Riky Subagja. Professional Portfolio.
         </div>
     </section>
 
