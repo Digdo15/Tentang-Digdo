@@ -80,6 +80,72 @@
             margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0, 86, 179, 0.2);
         }
 
+        /* Tambahan kelas untuk efek koin (dipertahankan, tapi tema warna tetap seperti semula) */
+        .profile-3d {
+            perspective: 1200px;
+            display: inline-block;
+            margin-bottom: 2rem;
+            user-select: none;
+        }
+
+        .coin {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 700ms cubic-bezier(.2,.8,.2,1);
+            cursor: grab;
+            box-shadow: 0 10px 25px rgba(0, 86, 179, 0.18);
+            outline: 3px solid var(--primary-blue);
+            background: transparent;
+        }
+        .coin:active { cursor: grabbing; }
+
+        .coin-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coin-face.front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: 50%;
+        }
+
+        .coin-face.front {
+            background: #fff;
+            transform: rotateY(0deg) translateZ(0);
+        }
+
+        .coin-face.back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--primary-blue), #003d82);
+            color: white;
+            font-weight: 800;
+            font-size: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 2px;
+        }
+
+        .coin-rim {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 4px rgba(255,255,255,0.02), 0 6px 18px rgba(0,0,0,0.06);
+            pointer-events: none;
+        }
+
         .hero h1 {
             font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800; letter-spacing: -1px;
             color: var(--text-main);
@@ -246,6 +312,32 @@
 
         /* Hidden by default on Desktop */
         .mobile-nav { display: none; }
+
+                /* Pastikan wrapper koin mengisi lebar baris dan menggunakan flex centering */
+        .profile-3d {
+            width: 100%;
+            display: flex;
+            justify-content: center; /* center horizontally */
+            align-items: center;     /* center vertically within wrapper */
+            margin-bottom: 2rem;
+        }
+
+        /* Pastikan elemen coin sendiri diatur sebagai block dan auto-margin */
+        .coin {
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Gambar sisi depan tampil sebagai block dan benar-benar merkez */
+        .coin-face.front img,
+        .profile-img {
+            display: block;
+            margin: 0 auto;
+            width: 160px;   /* pastikan sesuai ukuran yang diinginkan */
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -273,11 +365,24 @@
             <i class="fas fa-check-circle"></i> Available for New Projects
         </div>
         
-        <img src="https://lh3.googleusercontent.com/d/1vSW25TB9W5znKsbFG3outUZj7bXDjUzI" alt="Digdo Bayu" class="profile-img">
+        <!-- Koin interaktif: foto di sisi depan, inisial di sisi belakang -->
+        <div class="profile-3d" aria-hidden="false" title="Klik dan geser kiri/kanan untuk memutar, lepaskan agar kembali">
+            <div class="coin" id="profileCoin" aria-label="Foto profil interaktif">
+                <div class="coin-face front">
+                    <img src="https://lh3.googleusercontent.com/d/1vSW25TB9W5znKsbFG3outUZj7bXDjUzI" alt="Digdo Bayu" class="profile-img">
+                </div>
+                <div class="coin-face back" aria-hidden="true">
+                    <div style="text-align:center;">
+                        <div style="font-size:1rem; opacity:0.9; margin-bottom:6px;">DIGDO</div>
+                    </div>
+                </div>
+                <div class="coin-rim" aria-hidden="true"></div>
+            </div>
+        </div>
         
         <h1>Mengubah Data Spasial <br> Menjadi <span class="gradient-text">Solusi Digital</span></h1>
         
-        <p>Saya menggabungkan presisi <strong>Teknik Geodesi</strong> dengan kecanggihan <strong>Web Development</strong>. Membantu perusahaan Anda memvisualisasikan data lapangan menjadi aset digital yang berharga.</p>
+        <p>Saya menggabungkan presisi <strong>Teknik Geodesi</strong> dengan kecanggihan <strong>Web Development</strong>. Membantu perusahaan Anda memvisualisasikan data lapangan menjadi aset digital.
         
         <div class="hero-btns">
             <a href="https://wa.me/6285841889968" class="btn-primary">
@@ -441,7 +546,134 @@
         </div>
     </section>
 
+    <!-- SCRIPT: interaksi koin pada gambar profil (auto flip + manual drag + inertia + snap-to-front after idle) -->
+    <script>
+        (function () {
+            const coin = document.getElementById('profileCoin');
+
+            // State
+            let dragging = false;
+            let lastX = 0;
+            let rot = 0;           // degrees around Y
+            let velocity = 0;      // px per frame (approx)
+            let rafId = null;
+            let snapTimer = null;
+            let snapToFront = false;
+            let userInteracted = false;
+
+            // Tunables
+            const AUTO_SPIN_DEG_PER_SEC = 180; // deg/s -> 180deg/s produces 1 flip every 2s
+            const DRAG_SENSITIVITY = 0.6;      // deg per px dragged
+            const FRICTION = 0.94;             // inertia damping per frame
+            const SNAP_WAIT_MS = 4000;         // ms idle before snapping to front (0deg)
+            const SNAP_DURATION_MS = 700;      // final snap duration
+
+            function resetSnapTimer() {
+                if (snapTimer) clearTimeout(snapTimer);
+                snapToFront = false;
+                snapTimer = setTimeout(() => {
+                    snapToFront = true;
+                    // enable CSS transition for the snap
+                    coin.style.transition = `transform ${SNAP_DURATION_MS}ms cubic-bezier(.2,.8,.2,1)`;
+                }, SNAP_WAIT_MS);
+            }
+
+            // Pointer handlers
+            function pointerDown(e) {
+                dragging = true;
+                lastX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX);
+                velocity = 0;
+                userInteracted = true;
+                snapToFront = false;
+                if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
+                coin.style.transition = 'transform 0s'; // immediate response
+                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+            }
+
+            function pointerMove(e) {
+                if (!dragging) return;
+                const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX);
+                const dx = clientX - lastX;
+                lastX = clientX;
+                rot += dx * DRAG_SENSITIVITY;
+                velocity = dx;
+                coin.style.transform = `rotateY(${rot}deg)`;
+            }
+
+            function pointerUp() {
+                if (!dragging) return;
+                dragging = false;
+                startInertia();
+                resetSnapTimer();
+            }
+
+            // inertia + auto spin loop
+            let lastTimestamp = performance.now();
+            function animate(ts) {
+                const dt = Math.max(1, ts - lastTimestamp);
+                const dtSec = dt / 1000;
+                lastTimestamp = ts;
+
+                if (!dragging) {
+                    if (snapToFront) {
+                        // Snap to 0deg (front) using CSS transition set earlier
+                        rot = 0;
+                        velocity = 0;
+                        coin.style.transform = `rotateY(${rot}deg)`;
+                        // keep snapToFront true only briefly; allow reset timer to clear it
+                    } else if (Math.abs(velocity) > 0.01) {
+                        // inertia
+                        rot += velocity * DRAG_SENSITIVITY;
+                        velocity *= Math.pow(FRICTION, Math.min(4, dtSec * 60));
+                        if (Math.abs(velocity) < 0.02) velocity = 0;
+                        coin.style.transform = `rotateY(${rot}deg)`;
+                    } else {
+                        // auto spin when not recently interacted and not snapping
+                        if (!userInteracted) {
+                            rot += AUTO_SPIN_DEG_PER_SEC * dtSec;
+                            coin.style.transform = `rotateY(${rot}deg)`;
+                        } else {
+                            // after user interaction stops and inertia ended, small auto-spin can continue
+                            rot += (AUTO_SPIN_DEG_PER_SEC * 0.4) * dtSec;
+                            coin.style.transform = `rotateY(${rot}deg)`;
+                        }
+                    }
+                } // during dragging, pointerMove already sets transform
+
+                rafId = requestAnimationFrame(animate);
+            }
+
+            function startInertia() {
+                // allow auto spin resume after short delay
+                setTimeout(() => { userInteracted = false; }, 600);
+                if (!rafId) {
+                    lastTimestamp = performance.now();
+                    rafId = requestAnimationFrame(animate);
+                }
+            }
+
+            // Attach pointer events (mouse & touch)
+            coin.addEventListener('pointerdown', function (ev) {
+                coin.setPointerCapture && coin.setPointerCapture(ev.pointerId);
+                pointerDown(ev);
+            });
+            window.addEventListener('pointermove', function (ev) { pointerMove(ev); });
+            window.addEventListener('pointerup', function (ev) {
+                try { coin.releasePointerCapture && coin.releasePointerCapture(ev.pointerId); } catch (e) {}
+                pointerUp();
+            });
+
+            // touch fallback
+            coin.addEventListener('touchstart', function (ev) { pointerDown(ev.touches[0]); }, { passive: true });
+            window.addEventListener('touchmove', function (ev) { pointerMove(ev.touches[0]); }, { passive: true });
+            window.addEventListener('touchend', pointerUp);
+
+            // Init
+            resetSnapTimer();
+            lastTimestamp = performance.now();
+            rafId = requestAnimationFrame(animate);
+        })();
+    </script>
+
 </body>
 </html>
-
-
