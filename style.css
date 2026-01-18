@@ -89,28 +89,27 @@ nav {
 }
 
 .coin-face.front img {
-    /* Paksa gambar mengisi penuh container parent-nya */
-    position: absolute;
-    top: 0;
-    left: 0;
+    /* Pastikan gambar mengisi penuh lingkaran */
     width: 100%;
     height: 100%;
     
-    /* Kunci agar proporsi gambar tetap bagus (tidak gepeng) */
-    object-fit: cover;
+    /* Wajib pakai cover agar tidak gepeng */
+    object-fit: cover; 
     
-    /* Fokus tengah (Ganti 'center' jadi 'top' jika kepala terpotong) */
-    object-position: center;
+    /* --- BAGIAN INI KUNCINYA --- */
+    /* Angka pertama (50%): Geser Kanan-Kiri (biarkan 50% kalau sudah pas horizontal) */
+    /* Angka kedua (20%): Geser Atas-Bawah. */
+    /* -> Ganti 20% jadi angka lain sampai wajah pas di tengah lingkaran */
+    object-position: 50% 20%; 
     
-    /* Hapus margin/padding bawaan yang mungkin mengganggu */
+    display: block;
+    
+    /* Hapus margin/padding yang mungkin mengganggu */
     margin: 0;
     padding: 0;
     
-    display: block;
+    /* Pastikan border radius mengikuti induknya */
     border-radius: 50%;
-    
-    /* Pastikan gambar di render di layer yang benar */
-    z-index: 1; 
 }
 .coin-face.front { background: #fff; transform: rotateY(0deg) translateZ(0); }
 .coin-face.back {
@@ -270,5 +269,6 @@ section { padding: 6rem 10%; }
 
 
 .mobile-nav { display: none; }
+
 
 
