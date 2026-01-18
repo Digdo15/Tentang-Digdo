@@ -89,7 +89,17 @@ nav {
 }
 
 .coin-face.front img {
-    width: 100%; height: 100%; object-fit: object-position: center center;display: block;border-radius: 50%;
+   width: 100%;
+    height: 100%;
+    
+    /* PENTING: Agar gambar tidak gepeng */
+    object-fit: cover; 
+    
+    /* PENTING: Agar fokus gambar diambil dari tengah-tengah */
+    object-position: center center; 
+    
+    display: block;
+    border-radius: 50%;
 }
 
 .coin-face.front { background: #fff; transform: rotateY(0deg) translateZ(0); }
@@ -250,3 +260,4 @@ section { padding: 6rem 10%; }
 
 
 .mobile-nav { display: none; }
+
