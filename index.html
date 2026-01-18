@@ -6,339 +6,8 @@
     <title>Digdo Bayu Riky Subagja | Geospatial Engineer & Developer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* --- COLOR PALETTE BARU --- */
-            --primary-blue: #0056b3;      /* Biru Tua Profesional */
-            --primary-orange: #ff6b00;    /* Oranye Cerah untuk Aksi/Tombol */
-            --bg-body: #f4f6f9;           /* Abu-abu sangat muda (Background Utama) */
-            --bg-card: #ffffff;           /* Putih Bersih (Background Kartu) */
-            --text-main: #212529;         /* Hitam/Abu Gelap (Teks Utama) */
-            --text-muted: #64748b;        /* Abu-abu (Teks Deskripsi) */
-            --border-light: #e2e8f0;      /* Garis Batas Halus */
-            --shadow-soft: 0 10px 30px -10px rgba(0, 0, 0, 0.08); /* Bayangan Halus */
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        
-        body { background-color: var(--bg-body); color: var(--text-main); overflow-x: hidden; line-height: 1.7; }
-
-        /* UTILITIES */
-        .glass {
-            background: rgba(255, 255, 255, 0.95); /* Putih Transparan */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary-blue), var(--primary-orange));
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* NAVIGATION */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 1.2rem 5%;
-            z-index: 1000; display: flex; justify-content: space-between; align-items: center;
-            transition: 0.3s;
-        }
-        
-        .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; color: var(--primary-blue); text-decoration: none; }
-        .nav-links { display: flex; gap: 2.5rem; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary-orange); }
-        
-        .nav-btn {
-            padding: 0.6rem 1.5rem; border-radius: 50px; 
-            background: var(--primary-orange); color: white;
-            font-weight: 600; text-decoration: none; font-size: 0.9rem; transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-        }
-        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4); }
-
-        /* HERO SECTION */
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            padding: 120px 10% 60px; text-align: center; flex-direction: column; position: relative;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), var(--bg-body));
-            background-size: cover; background-position: center; background-attachment: fixed;
-        }
-
-        .profile-badge {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 0.5rem 1rem; background: #fff; border: 1px solid var(--primary-orange);
-            border-radius: 50px; color: var(--primary-orange); font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .profile-img {
-            width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
-            border: 4px solid #fff; outline: 3px solid var(--primary-blue);
-            margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0, 86, 179, 0.2);
-        }
-
-        /* Tambahan kelas untuk efek koin (dipertahankan, tapi tema warna tetap seperti semula) */
-        .profile-3d {
-            perspective: 1200px;
-            display: inline-block;
-            margin-bottom: 2rem;
-            user-select: none;
-        }
-
-        .coin {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 700ms cubic-bezier(.2,.8,.2,1);
-            cursor: grab;
-            box-shadow: 0 10px 25px rgba(0, 86, 179, 0.18);
-            outline: 3px solid var(--primary-blue);
-            background: transparent;
-        }
-        .coin:active { cursor: grabbing; }
-
-        .coin-face {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            backface-visibility: hidden;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .coin-face.front img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 50%;
-        }
-
-        .coin-face.front {
-            background: #fff;
-            transform: rotateY(0deg) translateZ(0);
-        }
-
-        .coin-face.back {
-            transform: rotateY(180deg);
-            background: linear-gradient(135deg, var(--primary-blue), #003d82);
-            color: white;
-            font-weight: 800;
-            font-size: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            letter-spacing: 2px;
-        }
-
-        .coin-rim {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            box-shadow: inset 0 0 0 4px rgba(255,255,255,0.02), 0 6px 18px rgba(0,0,0,0.06);
-            pointer-events: none;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem; line-height: 1.1; margin-bottom: 1.5rem; font-weight: 800; letter-spacing: -1px;
-            color: var(--text-main);
-        }
-        
-        .hero p {
-            max-width: 650px; margin: 0 auto 2.5rem; font-size: 1.15rem; color: var(--text-muted);
-        }
-
-        .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        
-        .btn-primary {
-            padding: 1rem 2.5rem; background: var(--primary-orange); color: white; border-radius: 8px;
-            font-weight: 600; text-decoration: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-        }
-        .btn-primary:hover { transform: translateY(-3px); background-color: #e65100; }
-        
-        .btn-secondary {
-            padding: 1rem 2.5rem; background: white; color: var(--primary-blue); border-radius: 8px;
-            font-weight: 600; text-decoration: none; transition: 0.3s; border: 1px solid var(--primary-blue);
-        }
-        .btn-secondary:hover { background: var(--primary-blue); color: white; }
-
-        /* SERVICES */
-        section { padding: 6rem 10%; }
-        
-        .section-header { margin-bottom: 4rem; text-align: center; }
-        .section-header h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--primary-blue); }
-        .section-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
-
-        .services-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;
-        }
-
-        .service-card {
-            background: var(--bg-card);
-            padding: 2.5rem; border-radius: 16px; transition: 0.4s;
-            position: relative; overflow: hidden;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-soft);
-        }
-        .service-card:hover { transform: translateY(-10px); border-color: var(--primary-orange); }
-        .service-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--primary-orange);
-            transform: scaleX(0); transform-origin: left; transition: 0.4s;
-        }
-        .service-card:hover::before { transform: scaleX(1); }
-
-        .service-icon {
-            width: 60px; height: 60px; background: rgba(0, 86, 179, 0.1); border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary-blue);
-            margin-bottom: 1.5rem;
-        }
-        .service-card:hover .service-icon { background: rgba(255, 107, 0, 0.1); color: var(--primary-orange); }
-        
-        .service-card h3 { font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-main); }
-        .service-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-        .service-list { list-style: none; }
-        .service-list li { margin-bottom: 0.5rem; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text-muted); }
-        .service-list li i { color: var(--primary-orange); font-size: 0.8rem; }
-
-        /* PORTFOLIO GRID */
-        .project-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;
-        }
-        
-        .project-card {
-            background: white;
-            border-radius: 16px; overflow: hidden; position: relative;
-            height: 350px; border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-soft);
-        }
-        
-        .project-img {
-            width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; filter: brightness(0.95);
-        }
-        .project-card:hover .project-img { transform: scale(1.05); filter: brightness(0.7); }
-
-        .project-overlay {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(to top, rgba(0, 86, 179, 0.9), rgba(0, 86, 179, 0.4));
-            padding: 2rem; 
-            display: flex; flex-direction: column; justify-content: flex-end;
-            height: 100%;
-            opacity: 0.9;
-            transition: 0.3s;
-        }
-        .project-card:hover .project-overlay { opacity: 1; background: linear-gradient(to top, rgba(0, 86, 179, 1), rgba(0, 86, 179, 0.6)); }
-        
-        .project-tag {
-            display: inline-block; padding: 4px 12px; background: var(--primary-orange); color: white;
-            border-radius: 4px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; text-transform: uppercase; align-self: flex-start;
-        }
-        .project-overlay h3 { color: white; margin-bottom: 0.5rem; }
-        .project-overlay p { color: rgba(255,255,255,0.8); }
-
-        .btn-live {
-            display: inline-flex; align-items: center; gap: 8px;
-            margin-top: 1rem; padding: 0.6rem 1.2rem;
-            background: white; color: var(--primary-blue);
-            font-weight: 700; font-size: 0.9rem; text-decoration: none; border-radius: 6px;
-            align-self: flex-start; transition: 0.3s;
-        }
-        .btn-live:hover { background: var(--primary-orange); color: white; transform: translateY(-3px); border: none; }
-
-        /* EXPERIENCE TIMELINE */
-        .timeline { max-width: 800px; margin: 0 auto; position: relative; }
-        .timeline::after {
-            content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: var(--border-light);
-        }
-        .timeline-item { padding-left: 60px; position: relative; margin-bottom: 3rem; }
-        .timeline-dot {
-            position: absolute; left: 11px; top: 5px; width: 20px; height: 20px;
-            background: white; border: 3px solid var(--primary-blue); border-radius: 50%; z-index: 1;
-        }
-        .timeline-date {
-            display: inline-block; padding: 4px 12px; background: rgba(0, 86, 179, 0.1); border-radius: 4px;
-            font-size: 0.85rem; color: var(--primary-blue); font-weight: 600; margin-bottom: 0.5rem;
-        }
-        .timeline-item h3 { color: var(--text-main); }
-        .timeline-item p { color: var(--text-muted); }
-        
-        /* FOOTER / CONTACT */
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary-blue), #003d82);
-            text-align: center; padding: 6rem 10%;
-            color: white;
-        }
-
-        /* --- PENAMBAHAN MEDIA QUERY (MOBILE OPTIMIZATION Tanpa Merubah Kode Diatas) --- */
-        @media (max-width: 768px) {
-            body { padding-bottom: 70px; } /* Ruang untuk mobile nav di bawah */
-            .nav-links, .nav-btn { display: none; } /* Sembunyikan navigasi atas di HP agar tidak tertumpuk */
-            
-            .hero { padding: 100px 5% 40px; }
-            .hero h1 { font-size: 2.2rem; }
-            .hero p { font-size: 1rem; margin-bottom: 2rem; }
-            .hero-btns { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto; }
-            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-
-            section { padding: 4rem 5%; }
-            .section-header h2 { font-size: 1.8rem; }
-            .services-grid, .project-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .project-card { height: 300px; }
-            
-            .timeline-item { padding-left: 45px; }
-            .timeline::after { left: 15px; }
-            .timeline-dot { left: 6px; }
-
-            /* Penambahan Navigasi Ikon Bawah Khusus Mobile */
-            .mobile-nav {
-                display: flex !important; position: fixed; bottom: 0; left: 0; width: 100%;
-                background: white; border-top: 1px solid var(--border-light);
-                z-index: 2000; padding: 10px 0; justify-content: space-around;
-                box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
-            }
-            .mobile-nav-item {
-                text-align: center; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-weight: 600;
-            }
-            .mobile-nav-item i { display: block; font-size: 1.2rem; margin-bottom: 3px; color: var(--primary-blue); }
-            .mobile-nav-item:active { color: var(--primary-orange); }
-        }
-
-        /* Hidden by default on Desktop */
-        .mobile-nav { display: none; }
-
-                /* Pastikan wrapper koin mengisi lebar baris dan menggunakan flex centering */
-        .profile-3d {
-            width: 100%;
-            display: flex;
-            justify-content: center; /* center horizontally */
-            align-items: center;     /* center vertically within wrapper */
-            margin-bottom: 2rem;
-        }
-
-        /* Pastikan elemen coin sendiri diatur sebagai block dan auto-margin */
-        .coin {
-            margin: 0 auto;
-            display: block;
-        }
-
-        /* Gambar sisi depan tampil sebagai block dan benar-benar merkez */
-        .coin-face.front img,
-        .profile-img {
-            display: block;
-            margin: 0 auto;
-            width: 160px;   /* pastikan sesuai ukuran yang diinginkan */
-            height: 160px;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-    </style>
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -365,24 +34,23 @@
             <i class="fas fa-check-circle"></i> Available for New Projects
         </div>
         
-        <!-- Koin interaktif: foto di sisi depan, inisial di sisi belakang -->
-        <div class="profile-3d" aria-hidden="false" title="Klik dan geser kiri/kanan untuk memutar, lepaskan agar kembali">
-            <div class="coin" id="profileCoin" aria-label="Foto profil interaktif">
+        <div class="profile-3d" aria-hidden="false" title="Klik dan geser kiri/kanan untuk memutar">
+            <div class="coin" id="profileCoin">
                 <div class="coin-face front">
                     <img src="https://lh3.googleusercontent.com/d/1vSW25TB9W5znKsbFG3outUZj7bXDjUzI" alt="Digdo Bayu" class="profile-img">
                 </div>
-                <div class="coin-face back" aria-hidden="true">
+                <div class="coin-face back">
                     <div style="text-align:center;">
                         <div style="font-size:1rem; opacity:0.9; margin-bottom:6px;">DIGDO</div>
                     </div>
                 </div>
-                <div class="coin-rim" aria-hidden="true"></div>
+                <div class="coin-rim"></div>
             </div>
         </div>
         
         <h1>Mengubah Data Spasial <br> Menjadi <span class="gradient-text">Solusi Digital</span></h1>
         
-        <p>Saya menggabungkan presisi <strong>Teknik Geodesi</strong> dengan kecanggihan <strong>Web Development</strong>. Membantu perusahaan Anda memvisualisasikan data lapangan menjadi aset digital.
+        <p>Saya menggabungkan presisi <strong>Teknik Geodesi</strong> dengan kecanggihan <strong>Web Development</strong>. Membantu perusahaan Anda memvisualisasikan data lapangan menjadi aset digital.</p>
         
         <div class="hero-btns">
             <a href="https://wa.me/6285841889968" class="btn-primary">
@@ -441,14 +109,13 @@
         </div>
 
         <div class="project-grid">
-            
             <div class="project-card">
                 <img src="https://lh3.googleusercontent.com/d/1tROMPDyJPRk8upvx2XBnKL2JP28SpeBF" class="project-img" alt="Web Viewer">
                 <div class="project-overlay">
                     <span class="project-tag">Web Development</span>
                     <h3>Interactive Point Cloud Viewer</h3>
                     <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                        Platform web untuk menampilkan data 3D LIDAR/TLS berdensitas tinggi secara langsung di browser. Tanpa perlu instalasi software berat.
+                        Platform web untuk menampilkan data 3D LIDAR/TLS berdensitas tinggi secara langsung di browser.
                     </p>
                     <a href="https://digdo15.github.io/website-digdo-bayu-riky-subagja/" target="_blank" class="btn-live">
                         <i class="fas fa-cube"></i> Lihat point cloud 3D (Las)
@@ -462,7 +129,7 @@
                     <span class="project-tag">Automation Tool</span>
                     <h3>Autel Waypoint Generator</h3>
                     <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                        Tools khusus yang saya kembangkan untuk membuat jalur terbang (flight plan) otomatis drone Autel, meningkatkan efisiensi perencanaan misi.
+                        Tools khusus yang saya kembangkan untuk membuat jalur terbang (flight plan) otomatis drone Autel.
                     </p>
                     <a href="https://digdo15.github.io/generated-way-point-khusus-autel/" target="_blank" class="btn-live">
                         <i class="fas fa-rocket"></i> Coba Tools
@@ -487,7 +154,6 @@
                     <p style="font-size: 0.9rem;">Inspeksi bawah air menggunakan C-MAX Sonar untuk keamanan jalur pelayaran.</p>
                 </div>
             </div>
-
         </div>
     </section>
 
@@ -521,7 +187,7 @@
                 <p style="font-size:0.95rem;">Monitoring elevasi timbunan (embankment) dan pengukuran situasi untuk konstruksi alat berat.</p>
             </div>
 
-             <div class="timeline-item">
+            <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <span class="timeline-date">Agu 2024 - Des 2025</span>
                 <h3 style="font-size:1.2rem;">Team Leader (Research TLS100)</h3>
@@ -542,138 +208,11 @@
             </a>
         </div>
         <div style="margin-top: 4rem; color: rgba(255,255,255,0.5); font-size: 0.9rem;">
-            &copy; 2026 Digdo Bayu Riky Subagja. Professional Portfolio.
+            © 2026 Digdo Bayu Riky Subagja. Professional Portfolio.
         </div>
     </section>
 
-    <!-- SCRIPT: interaksi koin pada gambar profil (auto flip + manual drag + inertia + snap-to-front after idle) -->
-    <script>
-        (function () {
-            const coin = document.getElementById('profileCoin');
-
-            // State
-            let dragging = false;
-            let lastX = 0;
-            let rot = 0;           // degrees around Y
-            let velocity = 0;      // px per frame (approx)
-            let rafId = null;
-            let snapTimer = null;
-            let snapToFront = false;
-            let userInteracted = false;
-
-            // Tunables
-            const AUTO_SPIN_DEG_PER_SEC = 180; // deg/s -> 180deg/s produces 1 flip every 2s
-            const DRAG_SENSITIVITY = 0.6;      // deg per px dragged
-            const FRICTION = 0.94;             // inertia damping per frame
-            const SNAP_WAIT_MS = 4000;         // ms idle before snapping to front (0deg)
-            const SNAP_DURATION_MS = 700;      // final snap duration
-
-            function resetSnapTimer() {
-                if (snapTimer) clearTimeout(snapTimer);
-                snapToFront = false;
-                snapTimer = setTimeout(() => {
-                    snapToFront = true;
-                    // enable CSS transition for the snap
-                    coin.style.transition = `transform ${SNAP_DURATION_MS}ms cubic-bezier(.2,.8,.2,1)`;
-                }, SNAP_WAIT_MS);
-            }
-
-            // Pointer handlers
-            function pointerDown(e) {
-                dragging = true;
-                lastX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX);
-                velocity = 0;
-                userInteracted = true;
-                snapToFront = false;
-                if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
-                coin.style.transition = 'transform 0s'; // immediate response
-                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-            }
-
-            function pointerMove(e) {
-                if (!dragging) return;
-                const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0].clientX);
-                const dx = clientX - lastX;
-                lastX = clientX;
-                rot += dx * DRAG_SENSITIVITY;
-                velocity = dx;
-                coin.style.transform = `rotateY(${rot}deg)`;
-            }
-
-            function pointerUp() {
-                if (!dragging) return;
-                dragging = false;
-                startInertia();
-                resetSnapTimer();
-            }
-
-            // inertia + auto spin loop
-            let lastTimestamp = performance.now();
-            function animate(ts) {
-                const dt = Math.max(1, ts - lastTimestamp);
-                const dtSec = dt / 1000;
-                lastTimestamp = ts;
-
-                if (!dragging) {
-                    if (snapToFront) {
-                        // Snap to 0deg (front) using CSS transition set earlier
-                        rot = 0;
-                        velocity = 0;
-                        coin.style.transform = `rotateY(${rot}deg)`;
-                        // keep snapToFront true only briefly; allow reset timer to clear it
-                    } else if (Math.abs(velocity) > 0.01) {
-                        // inertia
-                        rot += velocity * DRAG_SENSITIVITY;
-                        velocity *= Math.pow(FRICTION, Math.min(4, dtSec * 60));
-                        if (Math.abs(velocity) < 0.02) velocity = 0;
-                        coin.style.transform = `rotateY(${rot}deg)`;
-                    } else {
-                        // auto spin when not recently interacted and not snapping
-                        if (!userInteracted) {
-                            rot += AUTO_SPIN_DEG_PER_SEC * dtSec;
-                            coin.style.transform = `rotateY(${rot}deg)`;
-                        } else {
-                            // after user interaction stops and inertia ended, small auto-spin can continue
-                            rot += (AUTO_SPIN_DEG_PER_SEC * 0.4) * dtSec;
-                            coin.style.transform = `rotateY(${rot}deg)`;
-                        }
-                    }
-                } // during dragging, pointerMove already sets transform
-
-                rafId = requestAnimationFrame(animate);
-            }
-
-            function startInertia() {
-                // allow auto spin resume after short delay
-                setTimeout(() => { userInteracted = false; }, 600);
-                if (!rafId) {
-                    lastTimestamp = performance.now();
-                    rafId = requestAnimationFrame(animate);
-                }
-            }
-
-            // Attach pointer events (mouse & touch)
-            coin.addEventListener('pointerdown', function (ev) {
-                coin.setPointerCapture && coin.setPointerCapture(ev.pointerId);
-                pointerDown(ev);
-            });
-            window.addEventListener('pointermove', function (ev) { pointerMove(ev); });
-            window.addEventListener('pointerup', function (ev) {
-                try { coin.releasePointerCapture && coin.releasePointerCapture(ev.pointerId); } catch (e) {}
-                pointerUp();
-            });
-
-            // touch fallback
-            coin.addEventListener('touchstart', function (ev) { pointerDown(ev.touches[0]); }, { passive: true });
-            window.addEventListener('touchmove', function (ev) { pointerMove(ev.touches[0]); }, { passive: true });
-            window.addEventListener('touchend', pointerUp);
-
-            // Init
-            resetSnapTimer();
-            lastTimestamp = performance.now();
-            rafId = requestAnimationFrame(animate);
-        })();
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
