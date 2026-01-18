@@ -89,19 +89,29 @@ nav {
 }
 
 .coin-face.front img {
-   width: 100%;
+    /* Paksa gambar mengisi penuh container parent-nya */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 100%;
     
-    /* PENTING: Agar gambar tidak gepeng */
-    object-fit: cover; 
+    /* Kunci agar proporsi gambar tetap bagus (tidak gepeng) */
+    object-fit: cover;
     
-    /* PENTING: Agar fokus gambar diambil dari tengah-tengah */
-    object-position: center center; 
+    /* Fokus tengah (Ganti 'center' jadi 'top' jika kepala terpotong) */
+    object-position: center;
+    
+    /* Hapus margin/padding bawaan yang mungkin mengganggu */
+    margin: 0;
+    padding: 0;
     
     display: block;
     border-radius: 50%;
+    
+    /* Pastikan gambar di render di layer yang benar */
+    z-index: 1; 
 }
-
 .coin-face.front { background: #fff; transform: rotateY(0deg) translateZ(0); }
 .coin-face.back {
     transform: rotateY(180deg); background: linear-gradient(135deg, var(--primary-blue), #003d82);
@@ -260,4 +270,5 @@ section { padding: 6rem 10%; }
 
 
 .mobile-nav { display: none; }
+
 
