@@ -51,25 +51,48 @@ nav {
 
 /* HERO SECTION */
 .hero {
-    min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: 120px 10% 60px; text-align: center; flex-direction: column; position: relative;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), var(--bg-body));
-    background-size: cover; background-position: center; background-attachment: fixed;
+    min-height: 100vh; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    padding: 120px 10% 60px; 
+    text-align: center; 
+    flex-direction: column; 
+    position: relative;
+    
+    /* Background foto dengan overlay gradasi putih-abu agar teks tetap terbaca */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), var(--bg-body)), 
+                url('nama-file-foto-survey-anda.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
 }
 
 .profile-badge {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 0.5rem 1rem; background: #fff; border: 1px solid var(--primary-orange);
-    border-radius: 50px; color: var(--primary-orange); font-size: 0.9rem; font-weight: 600; margin-bottom: 2rem;
+    display: inline-flex; 
+    align-items: center; 
+    gap: 10px;
+    padding: 0.5rem 1rem; 
+    background: #fff; 
+    border: 1px solid var(--primary-orange);
+    border-radius: 50px; 
+    color: var(--primary-orange); 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    margin-bottom: 2rem;
     box-shadow: var(--shadow-soft);
 }
 
 .profile-img {
-    width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
-    border: 4px solid #fff; outline: 3px solid var(--primary-blue);
-    margin-bottom: 2rem; box-shadow: 0 10px 25px rgba(0, 86, 179, 0.2);
+    width: 160px; 
+    height: 160px; 
+    border-radius: 50%; 
+    object-fit: cover;
+    border: 4px solid #fff; 
+    outline: 3px solid var(--primary-blue);
+    margin-bottom: 2rem; 
+    box-shadow: 0 10px 25px rgba(0, 86, 179, 0.2);
 }
-
 /* 3D COIN PROFILE */
 .profile-3d {
     perspective: 1200px; display: flex; justify-content: center; align-items: center; margin-bottom: 2rem; width: 100%;
