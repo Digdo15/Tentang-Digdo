@@ -60,9 +60,10 @@ nav {
     flex-direction: column; 
     position: relative;
     
-    /* Background foto dengan overlay gradasi putih-abu agar teks tetap terbaca */
+  /* Latar belakang menggunakan foto survey Anda */
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), var(--bg-body)), 
-                url('nama-file-foto-survey-anda.jpg');
+                url('https://drive.google.com/uc?export=view&id=1mQECSt0-Z3FaNDuh7AWOv0rKjJWWJSTa');
+    
     background-size: cover; 
     background-position: center; 
     background-attachment: fixed;
