@@ -114,30 +114,53 @@ const musicIcon = document.getElementById('musicIcon');
 const iframe = document.getElementById('yt-player');
 let isPlaying = false;
 
-// Trigger musik saat klik pertama di website
-document.addEventListener('click', function() {
-    if(!isPlaying) {
-        // Mengirim perintah play ke iframe YouTube
-        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
-        isPlaying = true;
-    }
-}, { once: true });
+// Load YouTube IFrame API
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-// Tombol Toggle
+var player;
+var isPlaying = false;
+var musicBtn = document.getElementById('musicControl');
+var musicIcon = document.getElementById('musicIcon');
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtube-player', {
+        height: '0',
+        width: '0',
+        videoId: 'NwjD3stxYhk', // ID Video dari link yang Anda berikan
+        playerVars: {
+            'autoplay': 1,
+            'loop': 1,
+            'playlist': 'NwjD3stxYhk'
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    // Mencoba autoplay saat ada interaksi pertama di dokumen
+    document.addEventListener('click', function() {
+        if(!isPlaying) {
+            player.playVideo();
+            musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+            isPlaying = true;
+        }
+    }, { once: true });
+}
+
+// Kontrol Manual Klik Tombol
 musicBtn.addEventListener('click', function(e) {
     e.stopPropagation();
     if (isPlaying) {
-        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        player.pauseVideo();
         musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
     } else {
-        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        player.playVideo();
         musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
     }
     isPlaying = !isPlaying;
 });
-
-    resetSnapTimer();
-    lastTimestamp = performance.now();
-    rafId = requestAnimationFrame(animate);
-})();
