@@ -109,6 +109,34 @@
     window.addEventListener('touchmove', function (ev) { pointerMove(ev.touches[0]); }, { passive: true });
     window.addEventListener('touchend', pointerUp);
 
+    const musicBtn = document.getElementById('musicControl');
+const musicIcon = document.getElementById('musicIcon');
+const iframe = document.getElementById('yt-player');
+let isPlaying = false;
+
+// Trigger musik saat klik pertama di website
+document.addEventListener('click', function() {
+    if(!isPlaying) {
+        // Mengirim perintah play ke iframe YouTube
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+        isPlaying = true;
+    }
+}, { once: true });
+
+// Tombol Toggle
+musicBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (isPlaying) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        musicIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+    } else {
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        musicIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+    }
+    isPlaying = !isPlaying;
+});
+
     resetSnapTimer();
     lastTimestamp = performance.now();
     rafId = requestAnimationFrame(animate);
