@@ -274,11 +274,10 @@
         </div>
     </section>
 
-   <div style="position: absolute; visibility: hidden; width: 0; height: 0;">
-    <iframe id="yt-player" 
-            src="https://www.youtube.com/embed/NwjD3stxYhk?enablejsapi=1&autoplay=1&loop=1&playlist=NwjD3stxYhk" 
-            allow="autoplay">
-    </iframe>
+   <div id="youtube-player" style="position: absolute; visibility: hidden; width: 0; height: 0;"></div>
+
+<div id="musicControl" style="position: fixed; bottom: 85px; right: 20px; z-index: 2001; cursor: pointer; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.3); color: var(--primary-orange); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <i id="musicIcon" class="fas fa-volume-mute"></i>
 </div>
     
 </body>
